@@ -9,8 +9,8 @@ RUN mkdir /keystone \
     && rm -rf /keystone
 
 COPY docker-entrypoint.sh /entrypoint.sh
-COPY keystone.conf /etc/
-COPY keystone-paste.ini /etc/
+COPY keystone.conf /etc/keystone/
+COPY keystone-paste.ini /etc/keystone/
 
 ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 5000
