@@ -1,15 +1,15 @@
 FROM python:2.7.8
 
-ENV REFRESHED_AT 2014-10-03
+RUN groupadd -r keystone && useradd -r -g keystone keystone
 
-RUN mkdir /keystone \
-    && git clone -b stable/icehouse https://github.com/openstack/keystone.git /keystone \
-    && pip install mysql-python \
-    && pip install /keystone \
-    && rm -rf /keystone
+RUN pip install mysql-python \
+    && pip install git+https://github.com/openstack/keystone.git@stable/icehouse
 
 COPY docker-entrypoint.sh /entrypoint.sh
 COPY etc /etc/keystone/
+
+RUN chown -R keystone: /etc/keystone
+USER keystone
 
 ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 5000
